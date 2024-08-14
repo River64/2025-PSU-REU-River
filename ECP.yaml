@@ -1,0 +1,29 @@
+# Train/val/test sets
+path: ../datasets/ECP/batch6  # dataset root dir
+train: images/train  # train images (relative to 'path')
+val: images/val  # val images (relative to 'path')
+test:  # test images (optional)
+
+# Classes
+names:
+  0: 'pedestrian'
+  1: 'rider+bicycle'
+  2: 'rider+scooter' 
+  3: 'rider+wheelchair' 
+  4: 'rider+tricycle'
+  5: 'rider+buggy'
+  6: 'rider+motorbike'
+  7: 'person-group-far-away'
+  8: 'rider+vehicle-group-far-away'
+  9: 'bicycle-group'
+  10: 'buggy-group'
+  11: 'motorbike-group'
+  12: 'scootergroup'
+  13: 'tricycle-group'
+  14: 'wheelchair-group'
+  15: 'scooter-group'
+  16: 'rider+co-rider'
+  17: 'skateboarder'
+  18: 'rider'
+  19: 'bicycle'
+  20: 'motorbike'
