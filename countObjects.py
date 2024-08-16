@@ -1,3 +1,10 @@
+"""
+This program is intended to take a trained yolo model and extract
+pedestrian and bicyclist (or other) counts crossing a crosswalk in a given video.
+Code based on https://docs.ultralytics.com/guides/object-counting/.
+Edits made by Allie Hopper, 2024.
+"""
+
 import cv2
 
 from ultralytics import YOLO, solutions
@@ -28,15 +35,15 @@ def count_objects_in_region(region_points, video_path, output_video_path, model_
     video_writer.release()
     cv2.destroyAllWindows()
 
-crosswalk1 = [(523, 242), (544, 292), (57, 335), (140, 353)]
-# crosswalk2 = [(), (), (), ()]
-# crosswalk3 = [(), (), (), ()]
-# crosswalk4 = [(), (), (), ()]
+# crosswalkN = [(), (), (), ()]
+crosswalkS = [(405,790), (212,810), (840,890), (623,908)]
+# crosswalkW = [(), (), (), ()]
+# crosswalkE = [(523, 242), (544, 292), (57, 335), (140, 353)]
 
 
-count1 = count_objects_in_region(crosswalk1, "path/to/video.mp4", "output_video.avi", "model.pt")
+count = count_objects_in_region(crosswalkS, "path/to/video.mp4", "output_video.avi", "model.pt")
 # count2 = count_objects_in_region(crosswalk2, "path/to/video.mp4", "output_video.avi", "model.pt")
 # count3 = count_objects_in_region(crosswalk3, "path/to/video.mp4", "output_video.avi", "model.pt")
 # count4 = count_objects_in_region(crosswalk4, "path/to/video.mp4", "output_video.avi", "model.pt")
 
-print("The total count of pedestrians and bicyclists in the video is", count1)
+print("The total count of pedestrians and bicyclists in the given crosswalk is", count)

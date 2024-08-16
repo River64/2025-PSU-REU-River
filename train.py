@@ -6,13 +6,19 @@ Written by Allie Hopper, 2024
 
 from ultralytics import YOLO
 
-# Load a pretrained YOLO model from the last training batch (if first training batch, use "yolov8n.pt") 
+# Load a pretrained YOLO model from the last training batch (if first training batch, use "yolov8s.pt") 
 
-model = YOLO("yolov8n.pt")
+model = YOLO("runs/detect/train5/weights/best.pt")
 
 # Train the model using the 'ECP.yaml' dataset for 100 epochs
-results = model.train(data="2024-PSU-REU/ECP.yaml", epochs=100, imgsz=640, patience=250)
+results = model.train(data="2024-PSU-REU/ECP.yaml", epochs=100, imgsz=640, workers=16)
 
 # Evaluate the model's performance on the validation set
-# results = model.val()
+results = model.val()
+
+# Perform object detection on an image using the model
+results = model("https://ultralytics.com/images/bus.jpg")
+
+# Export the model to ONNX format
+success = model.export(format="onnx")
 

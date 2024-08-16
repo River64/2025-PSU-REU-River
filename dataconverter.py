@@ -45,7 +45,7 @@ def read_data(file_name, city):
     The data loaded from the JSON file
     The name of the txt file to write the data to
   """
-  file = '/u/aliciah_intern/summer_project/datasets/ECP/old_labels/train/' + city + "/" + file_name
+  file = '/u/aliciah_intern/summer_project/datasets/ECP/old_labels/val/' + city + "/" + file_name
   with open(file, 'r') as f:
     data = json.load(f)
 
@@ -63,8 +63,7 @@ def read_data(file_name, city):
       batch = "batch6"
       
   txt_version = file_name.replace('json', 'txt')
-  final = '/stash/portal/eurocity/ECP/day/batches/'+ batch + '/labels/train/' + txt_version
-  print("new file = " + final)
+  final = '/stash/portal/eurocity/ECP/day/batches/'+ batch + '/labels/val/' + txt_version
   return(data, final)
 
 def process_data(data):
@@ -135,13 +134,14 @@ def write_data(filename, data):
 
 
 if __name__ == "__main__":
-  cities = os.listdir('/u/aliciah_intern/summer_project/datasets/ECP/old_labels/train/') # retrieve all city names
+  cities = os.listdir('/u/aliciah_intern/summer_project/datasets/ECP/old_labels/val/') # retrieve all city names
   for city in cities:
     # Take all the files in the old city directory, convert them and put them in the new one
-    files = os.listdir('/u/aliciah_intern/summer_project/datasets/ECP/old_labels/train/'+ city)
+    files = os.listdir('/u/aliciah_intern/summer_project/datasets/ECP/old_labels/val/'+ city)
     for file in files:
       print("processing file " + file)
       ecp_data, new_file = read_data(file, city)[0], read_data(file, city)[1]
+      print("new file = " + new_file)
       write_data(new_file, process_data(ecp_data))
 
   #write_data('identities_dict.txt', str(identities))
