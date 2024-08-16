@@ -13,7 +13,7 @@ Project
 
 ├	datasets (any datasets intended to be used for training or validation)
 
-    └ ECP (eurocity persons database)
+    └ ECP (eurocity persons database) -- can be obtained from https://eurocity-dataset.tudelft.nl/eval/overview/statistics
 
         ├ batchX (the current batch of data to train on (eg. batch1, batch2, etc))
 
