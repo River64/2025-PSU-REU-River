@@ -4,10 +4,15 @@ into txt files in the format used to train a YOLO model.
 
 Written by Allie Hopper, 2024
 
+Edited slightly (absolute -> relative file paths) by River Johnson, 2025
+Note: the way those are set up means the script should be run from the code directory,
+not from anywhere else
 """
 
 import json
 import os
+
+
 
 # define a dictionary of all the possible tagged objects
 identities = {
@@ -34,18 +39,19 @@ identities = {
   'motorbike': 20
 }
 
-def read_data(file_name, city):
+def read_data(file_path, file_name, city):
   """Opens and reads a JSON file, and generates the path to the new file
 
   @Params:
-    file: The JSON file name (as a string)
+    file_path: the relative path to the directory used for storing the dataset
+    file_name: The JSON file name (as a string)
     batch: The city the data was taken in(as a string)
 
   @Returns:
     The data loaded from the JSON file
     The name of the txt file to write the data to
   """
-  file = '/u/aliciah_intern/summer_project/datasets/ECP/old_labels/val/' + city + "/" + file_name
+  file = './../datasets/ECP/old_labels/val/' + city + "/" + file_name
   with open(file, 'r') as f:
     data = json.load(f)
 
@@ -63,7 +69,7 @@ def read_data(file_name, city):
       batch = "batch6"
       
   txt_version = file_name.replace('json', 'txt')
-  final = '/stash/portal/eurocity/ECP/day/batches/'+ batch + '/labels/val/' + txt_version
+  final = './../datasets/ECP/' + batch + '/labels/val/' + txt_version
   return(data, final)
 
 def process_data(data):
@@ -134,10 +140,10 @@ def write_data(filename, data):
 
 
 if __name__ == "__main__":
-  cities = os.listdir('/u/aliciah_intern/summer_project/datasets/ECP/old_labels/val/') # retrieve all city names
+  cities = os.listdir('./../datasets/ECP/old_labels/val/') # retrieve all city names
   for city in cities:
     # Take all the files in the old city directory, convert them and put them in the new one
-    files = os.listdir('/u/aliciah_intern/summer_project/datasets/ECP/old_labels/val/'+ city)
+    files = os.listdir('./../datasets/ECP/old_labels/val/'+ city)
     for file in files:
       print("processing file " + file)
       ecp_data, new_file = read_data(file, city)[0], read_data(file, city)[1]
