@@ -12,7 +12,10 @@ not from anywhere else
 import json
 import os
 
-
+# Whether to convert the training or validation labels wasn't properly parametrized
+# in the original script. I won't be properly parametrizing it either.
+# Have this global variable though
+train_val = "train"
 
 # define a dictionary of all the possible tagged objects
 identities = {
@@ -39,11 +42,10 @@ identities = {
   'motorbike': 20
 }
 
-def read_data(file_path, file_name, city):
+def read_data(file_name, city):
   """Opens and reads a JSON file, and generates the path to the new file
 
   @Params:
-    file_path: the relative path to the directory used for storing the dataset
     file_name: The JSON file name (as a string)
     batch: The city the data was taken in(as a string)
 
@@ -51,26 +53,15 @@ def read_data(file_path, file_name, city):
     The data loaded from the JSON file
     The name of the txt file to write the data to
   """
-  file = './../datasets/ECP/old_labels/val/' + city + "/" + file_name
+  global train_val
+
+  file = './../datasets/ECP/old_labels/' + train_val + '/' + city + "/" + file_name
   with open(file, 'r') as f:
     data = json.load(f)
 
-  if city in ["amsterdam", "barcelona", "basel", "berlin", "bologna"]: #batch1
-      batch = "batch1"
-  elif city in ["bratislava", "brno", "budapest", "dresden", "firenze"]: #batch2
-      batch = "batch2"
-  elif city in ["hamburg", "koeln", "leipzig", "ljubljana", "lyon"]: #batch3
-      batch = "batch3"
-  elif city in ["marseille", "milano", "montpellier", "nuernberg", "pisa"]: #batch4
-      batch = "batch4"
-  elif city in ["potsdam", "prague", "roma", "stuttgart", "szczecin"]: #batch5
-      batch = "batch5"
-  else: #batch6
-      batch = "batch6"
-      
-  txt_version = file_name.replace('json', 'txt')
-  final = './../datasets/ECP/' + batch + '/labels/val/' + txt_version
-  return(data, final)
+    txt_version = file_name.replace('json', 'txt')
+    final = './../datasets/ECP/labels/' + train_val + '/' + txt_version
+    return(data, final)
 
 def process_data(data):
   """Processes the data from one JSON file.
@@ -140,10 +131,10 @@ def write_data(filename, data):
 
 
 if __name__ == "__main__":
-  cities = os.listdir('./../datasets/ECP/old_labels/val/') # retrieve all city names
+  cities = os.listdir('./../datasets/ECP/old_labels/' + train_val + '/') # retrieve all city names
   for city in cities:
     # Take all the files in the old city directory, convert them and put them in the new one
-    files = os.listdir('./../datasets/ECP/old_labels/val/'+ city)
+    files = os.listdir('./../datasets/ECP/old_labels/' + train_val + '/'+ city)
     for file in files:
       print("processing file " + file)
       ecp_data, new_file = read_data(file, city)[0], read_data(file, city)[1]
