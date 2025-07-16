@@ -1,7 +1,8 @@
 """
-This program is used to train a YOLO model for 100 epochs on one training batch of ECP data
+This program is used to train a YOLO model for 100 epochs on ECP data
 
 Written by Allie Hopper, 2024
+Edited by River Johnson, 2025
 """
 
 from ultralytics import YOLO
@@ -32,7 +33,7 @@ model = YOLO("yolov8s.pt")
 # Original: results = model.train(data="2024-PSU-REU/ECP.yaml", epochs=100, imgsz=640, workers=16, resume=True)
 # Small test: results = model.train(data="ECP.yaml", epochs=20, imgsz=640, workers=16, resume=False, device=0, cache=False)
 # Current version:
-results = model.train(data="ECP.yaml", epochs=100, imgsz=640, workers=16, resume=True, device=0, cache=False)
+results = model.train(data="ECP.yaml", epochs=600, imgsz=640, workers=16, resume=False, device=0, cache=False)
 
 # Evaluate the model's performance on the validation set
 results = model.val()
