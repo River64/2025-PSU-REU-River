@@ -1,3 +1,9 @@
+"
+This describes the ECP dataset: paths to the training and validation images
+and each class to identify.
+It's used in training the YOLO model on ECP data.
+"
+
 # Train/val/test sets
 path: ../datasets/ECP  # dataset root dir
 train: images/train  # train images (relative to 'path')
