@@ -5,17 +5,21 @@ The code in the repository this one was forked from was used in the [publication
 ## Purpose
 The code in this project is used to train and validate a YOLO model on data from the EuroCity Persons dataset. Below is a [description](https://github.com/River64/2025-PSU-REU-River/tree/main?tab=readme-ov-file#code-description) of each file in the repository, the [filesystem structure](https://github.com/River64/2025-PSU-REU-River/tree/main?tab=readme-ov-file#file-structure) used to set up the dataset, [instructions](https://github.com/River64/2025-PSU-REU-River/tree/main?tab=readme-ov-file#dataset-formatting) for setting up the dataset in that structure, and [tips](https://github.com/River64/2025-PSU-REU-River/tree/main?tab=readme-ov-file#running-remotely) for training the model.
 
-As a general note, it is expected that you're running code in the repository directory from within that directory (since I wanted to use regular relative file paths instead of messing around with the python `os` module). I may change this in the future, but currently it impacts `dataconverter.py` and `ECP.yaml`.
+As a general note, it is expected that you're running code in the repository directory from within that directory (since I wanted to use regular relative file paths instead of messing around with the python `os` module). I may change this in the future, but currently it impacts `data_converter.py` and `ECP.yaml`.
 ## Code description
-`dataconverter.py` converts labels from ECP format to a format the YOLO model uses, as well as excluding bounding boxes for labels that should not be included. Currently it only excludes far-away labels. It also combines rider bounding boxes with the corresponding rider type.
+`data_converter.py` converts labels from ECP format to a format the YOLO model uses, as well as excluding bounding boxes for labels that should not be included. Currently it only excludes far-away labels. It also combines rider bounding boxes with the corresponding rider type.
 
 `ECP.yaml` describes the ECP dataset: the file paths that the dataset is contained in and each object class to identify. This is a file that is required for running a YOLO model. It is used in `train.py`.
 
 `train.py` trains a YOLO model on ECP data for a specified number of epochs. See comments in the file itself for more detailed information and examples.
 
+`train_from_interrupt.py` is very similar to `train.py`, except that it will resume interrupted training given a folder to resume from as a command line argument.
+
 `test_cuda_available.py` is a short script to use to check whether CUDA is available in the environment. This check is also included in `train.py` (and that script will quit if CUDA is using the CPU), but it's also convenient to have and run by itself. "Using cuda device" means that the GPU will be used in training the model, which is ideal.
 
-`countObjects.py` uses a trained model to count objects within a video.
+`tune_model.py` starts a hyperparameter tuning session. This is NOT recommended to run on a regular desktop computer. See in-file comments for more details.
+
+`count_objects.py` uses a trained model to count objects within a video.
 ## File structure
 This is mainly based on the required [folder structure](https://docs.ultralytics.com/datasets/classify/) for YOLO model training.
 ```
@@ -67,7 +71,7 @@ old_labels
 
         └ city_labelnumber.json (~100-200 for each city)
 ```
-Run `dataconverter.py` to convert the training and validation label files. Files in old_labels will not be destroyed or modified. New label files will be created in the labels folder.
+Run `data_converter.py` to convert the training and validation label files. Files in old_labels will not be destroyed or modified. New label files will be created in the labels folder.
 ## Running remotely
 ### Virtual environment
 Use a [virtual environment](https://docs.python.org/3/library/venv.html) if necessary to install the ultralytics package. This will likely be necessary on a remote server, because you won't have permission to edit the server environment.
