@@ -1,5 +1,7 @@
 """
 This program is used to train a YOLO model on ECP data
+It is mostly the same as train.py, but with slight edits for
+resuming from an interrupted training session.
 
 Written by Allie Hopper, 2024
 Edited by River Johnson, 2025
@@ -28,11 +30,14 @@ print(torch.__version__)
 if device == "cpu":
     exit()
 
-# Load a pretrained YOLO model. This is what determines what YOLO version the model uses.
-model = YOLO("yolov10s.pt")
+# Load a pretrained YOLO model. This is the interrupted training run to resume from
+# Depending on what run got interrupted, the folder name will be different.
+# By default YOLO names the training run folders train#, but there are ways to put in custom names.
+# Also, YOLO makes "runs" and its subdirectories in whatever folder you run this script by default.
+model = YOLO("runs/detect/train27/weights/last.pt")
 
 # Train the model using the 'ECP.yaml' dataset for 200 epochs
-results = model.train(data="ECP.yaml", epochs=200, imgsz=640, workers=16, device=0, cache=True, patience=50)
+results = model.train(data="ECP.yaml", epochs=200, imgsz=640, workers=16, device=0, cache=True, resume=True, patience=50)
 
 # Evaluate the model's performance on the validation set
 metrics = model.val()
