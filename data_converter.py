@@ -135,7 +135,7 @@ if __name__ == "__main__":
             
             for file in files:
                 print("processing file " + file)
-                ecp_data, new_file = read_data(file, city)[0], read_data(train_val, file, city)[1]
+                ecp_data, new_file = read_data(train_val, file, city)[0], read_data(train_val, file, city)[1]
                 print("new file = " + new_file)
                 write_data(new_file, process_data(ecp_data))
 
