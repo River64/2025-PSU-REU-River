@@ -3,11 +3,12 @@ This program is intended to convert labels from the EuroCity Persons (ECP) Datas
 into txt files in the format used to train a YOLO model.
 
 Written by Allie Hopper, 2024
-
 Edited by River Johnson, 2025
-Absolute file paths -> relative file paths from current working directory
-(current working directory must be repository directory, otherwise the script will not work)
-Now processes training and validation data together
+
+Uses relative file paths from current working directory.
+The current working directory must be the directory this file is in,
+otherwise the script will not work correctly
+Called by ecp_dataset_setup.sh
 """
 
 import json
@@ -42,20 +43,21 @@ def read_data(train_val, file_name, city):
   """Opens and reads a JSON file, and generates the path to the new file
 
   @Params:
-    file_name: The JSON file name (as a string)
-    batch: The city the data was taken in(as a string)
+    train_val: String specifying whether to look at a training or validation file
+    file_name: The name of the individual file
+    city: The city this label's image was taken in (needed to determine file path)
 
   @Returns:
     The data loaded from the JSON file
     The name of the txt file to write the data to
   """
   
-  file = './../datasets/ECP/old_labels/' + train_val + '/' + city + "/" + file_name
+  file = './../../datasets/ECP/labels/' + train_val + '/' + city + "/" + file_name
   with open(file, 'r') as f:
     data = json.load(f)
 
     txt_version = file_name.replace('json', 'txt')
-    final = './../datasets/ECP/labels/' + train_val + '/' + txt_version
+    final = './../../datasets/ECP/labels/' + train_val + '/' + txt_version
     return(data, final)
 
 def process_data(data):
@@ -127,11 +129,11 @@ def write_data(filename, data):
 
 if __name__ == "__main__":
     for train_val in ["train", "val"]:
-        cities = os.listdir('./../datasets/ECP/old_labels/' + train_val + '/') # retrieve all city names
+        cities = os.listdir('./../../datasets/ECP/labels/' + train_val + '/') # retrieve all city names
         
         for city in cities:
-            # Take all the files in the old city directory, convert them and put them in the new one
-            files = os.listdir('./../datasets/ECP/old_labels/' + train_val + '/'+ city)
+            # Take all the files in the old label directory, convert them and put them in the new one
+            files = os.listdir('./../../datasets/ECP/labels/' + train_val + '/'+ city)
             
             for file in files:
                 print("processing file " + file)
