@@ -58,7 +58,7 @@ Project (parent folder, can have any name)
         └ old_labels (folder to put original labels in ECP format before conversion into YOLO format)
 ```
 ## Dataset formatting
-Run `download_ecp_dataset.sh` to download the ECP dataset (the parts of it used in this project), then `ecp_dataset_setup.sh` to set up the dataset and format it for model training.
+Run `download_ecp_dataset.sh` to download the ECP dataset (the parts of it used in this project), then `ecp_dataset_setup.sh` to set up the dataset and format it for model training. `ecp_dataset_setup.sh` calls `data_converter.py` automatically, but you can run that on its own any time you want to change which labels are included.
 
 ## Running the model
 ### Virtual environment
