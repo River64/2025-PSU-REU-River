@@ -24,7 +24,15 @@ unzip ../../ECP_working/ECP_day_img_val.zip -d ../../datasets/
 echo "Unzipping training images... (this will take a longer time)"
 unzip ../../ECP_working/ECP_day_img_train.zip -d ../../datasets/
 
-# Run the data converter to put the image labels in the right place
+# Rename the default folder to old_labels
+# and make a new labels folder for the YOLO format labels
+# This is convenient to keep because the data converter script may be
+# run several times after setup for different configurations
+echo "Putting original-format labels in old_labels folder..."
+mv ../../datasets/ECP/labels ../../datasets/ECP/old_labels
+mkdir ../../datasets/ECP/labels
+
+# Run the data converter to put the image labels in the right place + format
 echo "Running label data converter..."
 python3 data_converter.py
 
@@ -37,8 +45,7 @@ mv ../../datasets/ECP/images/val/*/* ../../datasets/ECP/images/val/
 echo "Deleting city folders..."
 rm -r `ls -d ../datasets/ECP/images/train/`
 rm -r `ls -d ../datasets/ECP/images/val/`
-rm -r `ls -d ../datasets/ECP/labels/train/`
-rm -r `ls -d ../datasets/ECP/labels/val/`
 # Hmmm. Is that how quote expansion works? I'll learn more later in the semester, I guess
 
 echo "Done!"
+exit 0
